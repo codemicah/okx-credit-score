@@ -302,7 +302,7 @@ MIT License - see [LICENSE](../LICENSE) for details.
 
 ## Audit Status
 
-⚠️ **Not Audited** - These contracts are for hackathon demonstration. Conduct proper security audits before mainnet deployment.
+⚠️ **Security Notice** - These contracts have not undergone formal security audits. Conduct comprehensive security audits and testing before mainnet deployment.
 
 ## Links
 

@@ -4,7 +4,6 @@
 
 A comprehensive DeFi protocol that enables users to build onchain credit scores from their OKX DEX trading history and access uncollateralized lending based on their proven track record.
 
-[![Built for EthCC 2025](https://img.shields.io/badge/Built%20for-EthCC%202025-purple)](https://ethcc.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## 🚀 Overview
@@ -21,17 +20,20 @@ The OKX Credit Score Protocol revolutionizes DeFi lending by creating verifiable
 ## ✨ Features
 
 ### 🏦 For Borrowers
+
 - **Build Credit Score** - Import OKX DEX trading history to establish creditworthiness
 - **Uncollateralized Loans** - Access loans up to 10x your credit score (in USD)
 - **Flexible Terms** - 30-day loan duration with competitive rates
 - **Real-time Tracking** - Monitor credit score changes and loan status
 
 ### 💰 For Lenders
+
 - **Risk Assessment** - Transparent credit scores based on verifiable trading data
 - **Automated Lending** - Smart contracts handle loan issuance and repayment
 - **Yield Generation** - Earn returns from uncollateralized lending
 
 ### 🔧 For Developers
+
 - **Full-stack Protocol** - Smart contracts, API, and frontend components
 - **Modern Tech Stack** - Solidity, Node.js, Next.js, TypeScript
 - **Extensible Architecture** - Easy integration with other DEX data sources
@@ -87,6 +89,7 @@ cd okx-credit-score-protocol
 ```
 
 This will:
+
 - Install dependencies for all components
 - Start local Anvil blockchain
 - Deploy smart contracts
@@ -178,16 +181,19 @@ npm run dev
 ## 🌐 Deployment
 
 ### Local Development
+
 - **Blockchain**: Anvil (localhost:8545)
 - **Backend**: localhost:3001
 - **Frontend**: localhost:3000
 
 ### Testnet Deployment
+
 - **Contracts**: Deploy to Sepolia or Polygon Mumbai
 - **Backend**: Deploy to Railway, Render, or AWS
 - **Frontend**: Deploy to Vercel or Netlify
 
 ### Production
+
 - **Contracts**: Deploy to Polygon, Arbitrum, or Ethereum mainnet
 - **Backend**: Production server with proper monitoring
 - **Frontend**: CDN deployment with custom domain
@@ -195,17 +201,20 @@ npm run dev
 ## 📊 Technology Stack
 
 ### Smart Contracts
+
 - **Solidity** - Contract development language
 - **Foundry** - Development framework and testing
 - **OpenZeppelin** - Security and standard implementations
 
 ### Backend
+
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **ethers.js** - Blockchain interactions
 - **Axios** - HTTP client for OKX API
 
 ### Frontend
+
 - **Next.js 14** - React framework with App Router
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling framework
@@ -213,6 +222,7 @@ npm run dev
 - **RainbowKit** - Wallet connection UI
 
 ### Infrastructure
+
 - **OKX DEX API** - Trading data source
 - **Anvil/Hardhat** - Local blockchain development
 - **Vercel/Netlify** - Frontend hosting
@@ -221,12 +231,14 @@ npm run dev
 ## 🧪 Testing
 
 ### Smart Contracts
+
 ```bash
 cd foundry
 forge test -vvv
 ```
 
 ### Backend API
+
 ```bash
 cd backend
 # Test endpoints with curl
@@ -234,6 +246,7 @@ curl http://localhost:3001/trading-data/0x123...
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm run build
@@ -241,6 +254,7 @@ npm run lint
 ```
 
 ### Integration Testing
+
 ```bash
 # Start all services
 ./scripts/start-all.sh
@@ -277,22 +291,8 @@ npm run lint
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🏆 Built for EthCC 2025
-
-This project was created for the EthCC 2025 Hackathon, demonstrating the power of combining real-world trading data with decentralized lending protocols.
-
-### Team
-- Smart Contract Development
-- Backend API Integration  
-- Frontend UI/UX Design
-- OKX DEX Data Integration
-
 ## 🔗 Links
 
 - **Live Demo**: [https://okx-credit-protocol.vercel.app](https://okx-credit-protocol.vercel.app)
-- **Documentation**: [https://docs.okx-credit.com](https://docs.okx-credit.com)
-- **EthCC Presentation**: [https://ethcc.io/presentations/okx-credit](https://ethcc.io/presentations/okx-credit)
 
----
-
-**Disclaimer**: This is a hackathon project for demonstration purposes. Use at your own risk and conduct proper security audits before any production deployment.
+**Disclaimer**: This software is provided "as is" without warranty. Users should conduct thorough testing and security audits before production deployment.
