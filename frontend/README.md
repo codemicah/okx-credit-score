@@ -1,195 +1,199 @@
-# OKX Credit Score - Next.js Frontend
+# OKX Credit Score Protocol - Frontend
 
-Modern Next.js frontend for the OKX Credit Score Protocol with environment variable support.
+A modern Next.js application for the OKX Credit Score Protocol, enabling users to build credit scores from DEX trading history and access uncollateralized lending.
+
+## Overview
+
+The frontend provides a comprehensive interface for interacting with the OKX Credit Score Protocol, featuring wallet connection, credit score tracking, and lending functionality. Built with Next.js 14, TypeScript, and modern Web3 technologies.
 
 ## Features
 
-- 🔐 RainbowKit wallet connection
-- 🎨 Tailwind CSS for styling
-- 📱 Fully responsive design
-- 🔄 Real-time contract data updates
-- 🍞 Toast notifications
-- 🌐 Environment variable configuration
-- ⚡ TypeScript for type safety
-- 🔨 Foundry integration with TypeChain
+- 🔐 **Smart Wallet Integration** - RainbowKit with automatic dashboard redirect
+- 📊 **Credit Score Dashboard** - Real-time credit score tracking and visualization  
+- 💰 **Lending Interface** - Borrow and repay funds based on credit score
+- 🎨 **Modern UI/UX** - Responsive design with Tailwind CSS and gradient animations
+- ⚡ **TypeScript Safety** - Full type safety with auto-generated contract types
+- 🔄 **Real-time Updates** - Live contract data synchronization
+- 📱 **Mobile Responsive** - Optimized for all device sizes
+- 🍞 **User Feedback** - Toast notifications for all user actions
 
-## Prerequisites
+## Quick Start
+
+### Prerequisites
 
 - Node.js 18+
-- Yarn or npm
-- Running Foundry Anvil node
-- Deployed contracts via Foundry
-- Backend API running
+- Running Foundry Anvil local node
+- Deployed smart contracts
+- Backend API server
 
-## Setup
+### Installation
 
 1. **Install dependencies:**
-
 ```bash
 cd frontend
 npm install
 ```
 
-2. **Configure environment variables:**
-
+2. **Configure environment:**
 ```bash
 cp .env.local.example .env.local
 ```
 
-Update `.env.local` with your contract addresses:
-
-```
+3. **Update environment variables:**
+```env
 NEXT_PUBLIC_CREDIT_SCORE_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
 NEXT_PUBLIC_LENDING_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
 NEXT_PUBLIC_API_URL=http://localhost:3001
 NEXT_PUBLIC_CHAIN_ID=31337
 ```
 
-3. **Run the development server:**
-
+4. **Start development server:**
 ```bash
-yarn dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Environment Variables
-
-All environment variables are prefixed with `NEXT_PUBLIC_` to make them available in the browser:
-
-- `NEXT_PUBLIC_CREDIT_SCORE_ADDRESS`: Deployed CreditScore contract address
-- `NEXT_PUBLIC_LENDING_ADDRESS`: Deployed SimpleLending contract address
-- `NEXT_PUBLIC_API_URL`: Backend API URL (default: http://localhost:3001)
-- `NEXT_PUBLIC_CHAIN_ID`: Blockchain chain ID (31337 for localhost)
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: Optional WalletConnect project ID
-
-## Project Structure
+## Project Architecture
 
 ```
-frontend-nextjs/
+frontend/
 ├── app/
-│   ├── layout.tsx      # Root layout with providers
-│   ├── page.tsx        # Main page component
-│   └── providers.tsx   # Web3 providers setup
+│   ├── dashboard/
+│   │   └── page.tsx           # Dashboard page with credit score and lending
+│   ├── layout.tsx             # Root layout with Web3 providers
+│   ├── page.tsx               # Landing page with smart wallet redirect
+│   └── providers.tsx          # Web3 provider configuration
 ├── components/
-│   ├── ConnectWallet.tsx   # Wallet connection button
-│   ├── CreditScore.tsx     # Credit score display
-│   └── LendingActions.tsx  # Borrow/Repay actions
+│   ├── ConnectWallet.tsx      # RainbowKit wallet connection
+│   ├── CreditScore.tsx        # Credit score display and OKX sync
+│   ├── LandingPage.tsx        # Homepage with feature showcase
+│   ├── LendingActions.tsx     # Borrow/repay interface
+│   ├── FeatureCard.tsx        # Feature highlight cards
+│   ├── HowItWorks.tsx         # Process explanation section
+│   ├── StatsSection.tsx       # Protocol statistics
+│   ├── Logo.tsx               # Animated protocol logo
+│   └── DebugInfo.tsx          # Development debugging panel
 ├── hooks/
-│   └── useContracts.ts     # Contract interaction hooks
+│   └── useContracts.ts        # Contract interaction hooks
 ├── lib/
-│   └── config.ts           # Configuration and ABIs
+│   ├── config.ts              # Configuration and ABIs
+│   ├── contracts.ts           # Contract address management
+│   └── typechain-types/       # Auto-generated contract types
 └── styles/
-    └── globals.css         # Global styles
+    └── globals.css            # Global styles and animations
 ```
+
+## Environment Configuration
+
+All environment variables are prefixed with `NEXT_PUBLIC_` for browser availability:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_CREDIT_SCORE_ADDRESS` | CreditScore contract address | Required |
+| `NEXT_PUBLIC_LENDING_ADDRESS` | SimpleLending contract address | Required |
+| `NEXT_PUBLIC_API_URL` | Backend API endpoint | `http://localhost:3001` |
+| `NEXT_PUBLIC_CHAIN_ID` | Blockchain network ID | `31337` (localhost) |
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID | Optional |
 
 ## Development Workflow
 
-### TypeChain Integration
+### Type Generation
 
-This project uses TypeChain to generate TypeScript bindings from Foundry artifacts:
-
-1. **Regenerate types after contract changes:**
+Generate TypeScript contract bindings from Foundry artifacts:
 
 ```bash
 npm run typechain
 ```
 
-2. **Or use the convenience script:**
-
+Or use the convenience script:
 ```bash
 ./scripts/update-types.sh
 ```
 
-This script will:
+### Available Scripts
 
-- Compile Foundry contracts
-- Generate fresh TypeChain types
-- Update the frontend type definitions
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run typechain` | Generate contract types |
+| `npm run typechain:watch` | Watch and regenerate types |
 
-## Testing
+### Testing Locally
 
-1. **Start local Foundry node:**
-
+1. **Start Foundry node:**
 ```bash
-cd ../foundry
-anvil
+cd ../foundry && anvil
 ```
 
 2. **Deploy contracts:**
-
 ```bash
-cd ../foundry
-./deploy-local.sh
+cd ../foundry && ./deploy-local.sh
 ```
 
-3. **Update `.env.local`** with deployed addresses
-
-4. **Start backend:**
-
+3. **Start backend API:**
 ```bash
-cd ../backend
-node server.js
+cd ../backend && node server.js
 ```
 
-5. **Start Next.js:**
-
+4. **Start frontend:**
 ```bash
-cd frontend-nextjs
-yarn dev
+npm run dev
 ```
 
-6. **Connect wallet** and test functionality
+## User Flow
 
-## Build for Production
+1. **Landing Page** - Users see protocol features and connect wallet
+2. **Auto-Redirect** - Wallet connection automatically redirects to dashboard
+3. **Dashboard Access** - View credit score, sync OKX data, borrow funds
+4. **Credit Building** - Import trading history to improve credit score
+5. **Lending** - Access uncollateralized loans based on credit rating
 
-```bash
-yarn build
-yarn start
-```
+## Key Components
+
+### ConnectWallet
+- RainbowKit integration with custom styling
+- Supports both default and custom button variants
+- Automatic connection state management
+
+### CreditScore  
+- Displays current credit score and rating
+- OKX DEX data synchronization
+- Real-time score updates
+
+### LendingActions
+- Borrow funds interface with amount validation
+- Repay loans with balance checking
+- Transaction status and confirmation
+
+### LandingPage
+- Feature showcase with animated elements
+- Responsive hero section
+- Statistics and how-it-works sections
 
 ## Deployment
 
-For production deployment:
+### Development
+```bash
+npm run build
+npm run start
+```
 
-1. Update `.env.production` with mainnet/testnet addresses
-2. Build the application
-3. Deploy to Vercel, Netlify, or any Next.js hosting platform
+### Production
+1. Configure production environment variables
+2. Deploy to Vercel, Netlify, or similar platform
+3. Ensure contract addresses match deployed network
 
-## Features Comparison
+## Technology Stack
 
-### Original Frontend
-
-- Vanilla HTML/JS
-- Direct ethers.js usage
-- Hardcoded addresses
-- Basic styling
-
-### Next.js Frontend
-
-- React components
-- RainbowKit + wagmi
-- Environment variables
-- Tailwind CSS
-- Server-side rendering
-- Type safety
-- Better UX with loading states
-
-## Troubleshooting
-
-### Wallet not connecting
-
-- Ensure MetaMask is on the correct network (localhost:8545)
-- Check that Foundry Anvil node is running
-- Verify contract addresses in `.env.local`
-
-### Transactions failing
-
-- Check backend is running
-- Verify contract addresses match deployed contracts
-- Ensure wallet has ETH for gas
-
-### Environment variables not loading
-
-- Restart Next.js server after changing `.env.local`
-- Ensure variables start with `NEXT_PUBLIC_`
+- **Framework:** Next.js 14 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS with custom animations
+- **Web3:** wagmi + viem for contract interactions
+- **Wallet:** RainbowKit for wallet connection
+- **HTTP Client:** TanStack Query for API calls
+- **Notifications:** react-hot-toast
+- **Contract Types:** TypeChain for type generation
