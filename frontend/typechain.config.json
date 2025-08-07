@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ethers-v5",
+    "outDir": "./lib/typechain-types",
+    "alwaysGenerateOverloads": false,
+    "externalArtifacts": ["../foundry/out/**/!(*.dbg|*.metadata).json"],
+    "dontOverrideCompile": false
+  }
+}
