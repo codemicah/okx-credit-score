@@ -62,10 +62,10 @@ The OKX Credit Score Protocol revolutionizes DeFi lending by creating verifiable
 ### Data Flow
 
 1. **User connects wallet** → Frontend redirects to dashboard
-2. **User requests credit update** → Backend fetches OKX trading data
-3. **Backend processes data** → Updates credit score onchain via smart contract
-4. **User views updated score** → Frontend displays new credit rating
-5. **User borrows funds** → Smart contract validates score and issues loan
+2. **User requests credit update** → Backend fetches OKX DEX API trading data via transactions-by-address endpoint
+3. **Backend processes data** → Calculates volume and trade count, updates credit score onchain
+4. **User views updated score** → Frontend displays new credit rating based on real trading activity
+5. **User borrows funds** → Smart contract validates score and issues uncollateralized loan
 
 ## 🚀 Quick Start
 
@@ -156,7 +156,11 @@ npm install
 
 # Configure environment
 cp .env.example .env
-# Edit .env with deployed contract addresses
+# Edit .env with:
+# - Deployed contract addresses
+# - OKX API key
+# - Chain ID (1 for mainnet, 31337 for local)
+# - NODE_ENV (development/production)
 
 # Start server
 node server.js
@@ -211,7 +215,7 @@ npm run dev
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **ethers.js** - Blockchain interactions
-- **Axios** - HTTP client for OKX API
+- **Axios** - HTTP client for OKX DEX API
 
 ### Frontend
 
@@ -223,7 +227,7 @@ npm run dev
 
 ### Infrastructure
 
-- **OKX DEX API** - Trading data source
+- **OKX DEX API** - Trading data source (transactions-by-address endpoint)
 - **Anvil/Hardhat** - Local blockchain development
 - **Vercel/Netlify** - Frontend hosting
 - **Railway/Render** - Backend hosting

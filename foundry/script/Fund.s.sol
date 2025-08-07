@@ -8,7 +8,10 @@ contract Fund is Script {
     function run() external {
         // Get the lending contract address from environment variables
         address lendingContract = vm.envAddress("LENDING_CONTRACT_ADDRESS");
-        require(lendingContract != address(0), "LENDING_CONTRACT_ADDRESS not set");
+        require(
+            lendingContract != address(0),
+            "LENDING_CONTRACT_ADDRESS not set"
+        );
 
         // Amount to fund in ether
         uint256 amount = 10 ether;
@@ -21,6 +24,10 @@ contract Fund is Script {
 
         vm.stopBroadcast();
 
-        console.log("Successfully funded contract %s with %s ETH", lendingContract, amount / 1e18);
+        console.log(
+            "Successfully funded contract %s with %s ETH",
+            lendingContract,
+            amount / 1e18
+        );
     }
 }
