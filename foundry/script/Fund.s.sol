@@ -14,15 +14,15 @@ contract Fund is Script {
         );
 
         // Amount to fund in ether
-        uint256 amount = 10 ether;
+        uint256 amount = 0.01 ether;
 
-        vm.startBroadcast();
+        // vm.startBroadcast();
 
-        // Send ETH to the contract
-        (bool success, ) = payable(lendingContract).call{value: amount}("");
-        require(success, "Failed to send Ether");
+        // // Send ETH to the contract
+        // (bool success, ) = payable(lendingContract).call{value: amount}("");
+        // require(success, "Failed to send Ether");
 
-        vm.stopBroadcast();
+        // vm.stopBroadcast();
 
         console.log(
             "Successfully funded contract %s with %s ETH",

@@ -12,9 +12,11 @@ import "../src/SimpleLending.sol";
  */
 contract TestHelper is Test {
     // Standard test addresses
-    address constant ALICE = address(0x1111111111111111111111111111111111111111);
+    address constant ALICE =
+        address(0x1111111111111111111111111111111111111111);
     address constant BOB = address(0x2222222222222222222222222222222222222222);
-    address constant CHARLIE = address(0x3333333333333333333333333333333333333333);
+    address constant CHARLIE =
+        address(0x3333333333333333333333333333333333333333);
     address constant DAVE = address(0x4444444444444444444444444444444444444444);
     address constant EVE = address(0x5555555555555555555555555555555555555555);
 
@@ -27,6 +29,10 @@ contract TestHelper is Test {
         bool eligible; // eligible to borrow
         string name;
     }
+
+    event ScoreUpdated(address indexed user, uint256 score);
+    event LoanIssued(address indexed borrower, uint256 amount);
+    event LoanRepaid(address indexed borrower, uint256 amount);
 
     function getStandardTestUsers() internal pure returns (TestUser[5] memory) {
         return [
@@ -75,7 +81,7 @@ contract TestHelper is Test {
 
     function setupStandardUsers(CreditScore creditScore) internal {
         TestUser[5] memory users = getStandardTestUsers();
-        
+
         for (uint i = 0; i < users.length; i++) {
             if (users[i].tradingVolume > 0 || users[i].tradeCount > 0) {
                 creditScore.updateUserData(
@@ -83,11 +89,16 @@ contract TestHelper is Test {
                     users[i].tradingVolume,
                     users[i].tradeCount
                 );
-                
+
                 // Verify score calculation
                 uint256 actualScore = creditScore.getScore(users[i].addr);
-                assertEq(actualScore, users[i].expectedScore, 
-                    string(abi.encodePacked("Score mismatch for ", users[i].name)));
+                assertEq(
+                    actualScore,
+                    users[i].expectedScore,
+                    string(
+                        abi.encodePacked("Score mismatch for ", users[i].name)
+                    )
+                );
             }
         }
     }
@@ -102,27 +113,41 @@ contract TestHelper is Test {
         vm.deal(user, amount);
     }
 
-    function calculateExpectedLoanAmount(uint256 creditScore) internal pure returns (uint256) {
+    function calculateExpectedLoanAmount(
+        uint256 creditScore
+    ) internal pure returns (uint256) {
         if (creditScore < 300) return 0;
         return (creditScore * 10 * 1e6) / 2; // Credit limit * 50%
     }
 
-    function calculateRepayAmountETH(uint256 loanAmountUSD, uint256 ethPriceUSD) internal pure returns (uint256) {
+    function calculateRepayAmountETH(
+        uint256 loanAmountUSD,
+        uint256 ethPriceUSD
+    ) internal pure returns (uint256) {
         return (loanAmountUSD * 1e12) / ethPriceUSD;
     }
 
-    function deployTestContracts() internal returns (CreditScore, SimpleLending) {
+    function deployTestContracts()
+        internal
+        returns (CreditScore, SimpleLending)
+    {
         CreditScore creditScore = new CreditScore();
         SimpleLending lending = new SimpleLending(address(creditScore));
-        
+
         // Fund lending contract
         vm.deal(address(lending), 100 ether);
-        
+
         return (creditScore, lending);
     }
 
-    function deployAndSetupTestContracts() internal returns (CreditScore, SimpleLending) {
-        (CreditScore creditScore, SimpleLending lending) = deployTestContracts();
+    function deployAndSetupTestContracts()
+        internal
+        returns (CreditScore, SimpleLending)
+    {
+        (
+            CreditScore creditScore,
+            SimpleLending lending
+        ) = deployTestContracts();
         setupStandardUsers(creditScore);
         return (creditScore, lending);
     }
@@ -136,24 +161,52 @@ contract TestHelper is Test {
         string memory message
     ) internal {
         (uint256 amount, uint256 dueDate, bool repaid) = lending.loans(user);
-        
-        assertEq(amount, expectedAmount, string(abi.encodePacked(message, " - amount")));
-        assertEq(repaid, expectedRepaidStatus, string(abi.encodePacked(message, " - repaid status")));
-        
+
+        assertEq(
+            amount,
+            expectedAmount,
+            string(abi.encodePacked(message, " - amount"))
+        );
+        assertEq(
+            repaid,
+            expectedRepaidStatus,
+            string(abi.encodePacked(message, " - repaid status"))
+        );
+
         if (expectedAmount > 0 && !expectedRepaidStatus) {
-            assertGt(dueDate, block.timestamp, string(abi.encodePacked(message, " - due date should be in future")));
+            assertGt(
+                dueDate,
+                block.timestamp,
+                string(
+                    abi.encodePacked(message, " - due date should be in future")
+                )
+            );
         }
     }
 
-    function assertNoLoan(SimpleLending lending, address user, string memory message) internal {
+    function assertNoLoan(
+        SimpleLending lending,
+        address user,
+        string memory message
+    ) internal {
         assertLoanState(lending, user, 0, false, message);
     }
 
-    function assertActiveLoan(SimpleLending lending, address user, uint256 expectedAmount, string memory message) internal {
+    function assertActiveLoan(
+        SimpleLending lending,
+        address user,
+        uint256 expectedAmount,
+        string memory message
+    ) internal {
         assertLoanState(lending, user, expectedAmount, false, message);
     }
 
-    function assertRepaidLoan(SimpleLending lending, address user, uint256 expectedAmount, string memory message) internal {
+    function assertRepaidLoan(
+        SimpleLending lending,
+        address user,
+        uint256 expectedAmount,
+        string memory message
+    ) internal {
         assertLoanState(lending, user, expectedAmount, true, message);
     }
 
@@ -171,13 +224,28 @@ contract TestHelper is Test {
         lending.borrow();
 
         (loanAmount, , ) = lending.loans(user);
-        uint256 loanETH = calculateRepayAmountETH(loanAmount, lending.ETH_PRICE_IN_USD());
+        uint256 loanETH = calculateRepayAmountETH(
+            loanAmount,
+            lending.ETH_PRICE_IN_USD()
+        );
 
         // Verify borrow worked
-        assertEq(user.balance, userInitialBalance + loanETH, 
-            string(abi.encodePacked(userLabel, " should receive ETH")));
-        assertEq(address(lending).balance, contractInitialBalance - loanETH,
-            string(abi.encodePacked("Contract should have less ETH after ", userLabel, " borrow")));
+        assertEq(
+            user.balance,
+            userInitialBalance + loanETH,
+            string(abi.encodePacked(userLabel, " should receive ETH"))
+        );
+        assertEq(
+            address(lending).balance,
+            contractInitialBalance - loanETH,
+            string(
+                abi.encodePacked(
+                    "Contract should have less ETH after ",
+                    userLabel,
+                    " borrow"
+                )
+            )
+        );
 
         // Fund user for repayment
         vm.deal(user, loanETH);
@@ -187,9 +255,23 @@ contract TestHelper is Test {
         lending.repay{value: loanETH}();
 
         // Verify repay worked
-        assertRepaidLoan(lending, user, loanAmount, string(abi.encodePacked(userLabel, " loan should be repaid")));
-        assertEq(address(lending).balance, contractInitialBalance,
-            string(abi.encodePacked("Contract balance should be restored after ", userLabel, " repay")));
+        assertRepaidLoan(
+            lending,
+            user,
+            loanAmount,
+            string(abi.encodePacked(userLabel, " loan should be repaid"))
+        );
+        assertEq(
+            address(lending).balance,
+            contractInitialBalance,
+            string(
+                abi.encodePacked(
+                    "Contract balance should be restored after ",
+                    userLabel,
+                    " repay"
+                )
+            )
+        );
     }
 
     // Score calculation verification
@@ -204,25 +286,37 @@ contract TestHelper is Test {
     }
 
     // Event testing helpers
-    function expectScoreUpdatedEvent(address user, uint256 expectedScore) internal {
+    function expectScoreUpdatedEvent(
+        address user,
+        uint256 expectedScore
+    ) internal {
         vm.expectEmit(true, false, false, true);
-        emit CreditScore.ScoreUpdated(user, expectedScore);
+        emit ScoreUpdated(user, expectedScore);
     }
 
-    function expectLoanIssuedEvent(address borrower, uint256 expectedAmount) internal {
+    function expectLoanIssuedEvent(
+        address borrower,
+        uint256 expectedAmount
+    ) internal {
         vm.expectEmit(true, false, false, true);
-        emit SimpleLending.LoanIssued(borrower, expectedAmount);
+        emit LoanIssued(borrower, expectedAmount);
     }
 
-    function expectLoanRepaidEvent(address borrower, uint256 expectedAmount) internal {
+    function expectLoanRepaidEvent(
+        address borrower,
+        uint256 expectedAmount
+    ) internal {
         vm.expectEmit(true, false, false, true);
-        emit SimpleLending.LoanRepaid(borrower, expectedAmount);
+        emit LoanRepaid(borrower, expectedAmount);
     }
 
     // Gas testing helper
-    function measureGas(address target, bytes memory data) internal returns (uint256 gasUsed) {
+    function measureGas(
+        address target,
+        bytes memory data
+    ) internal returns (uint256 gasUsed) {
         uint256 gasStart = gasleft();
-        (bool success,) = target.call(data);
+        (bool success, ) = target.call(data);
         require(success, "Gas measurement call failed");
         gasUsed = gasStart - gasleft();
     }
@@ -241,19 +335,28 @@ contract TestHelper is Test {
         return account.balance;
     }
 
-    function getContractBalance(address contractAddr) internal view returns (uint256) {
+    function getContractBalance(
+        address contractAddr
+    ) internal view returns (uint256) {
         return contractAddr.balance;
     }
 
     // Debugging helpers
-    function logUserState(CreditScore creditScore, SimpleLending lending, address user, string memory label) internal view {
+    function logUserState(
+        CreditScore creditScore,
+        SimpleLending lending,
+        address user,
+        string memory label
+    ) internal view {
         uint256 score = creditScore.getScore(user);
         uint256 volume = creditScore.tradingVolume(user);
         uint256 trades = creditScore.tradeCount(user);
         uint256 lastUpdated = creditScore.lastUpdated(user);
-        
-        (uint256 loanAmount, uint256 dueDate, bool repaid) = lending.loans(user);
-        
+
+        (uint256 loanAmount, uint256 dueDate, bool repaid) = lending.loans(
+            user
+        );
+
         console.log("=== %s State ===", label);
         console.log("Address:", user);
         console.log("ETH Balance:", user.balance);
