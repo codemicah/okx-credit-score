@@ -5,6 +5,7 @@ import {
   RainbowKitProvider,
   getDefaultWallets,
   getDefaultConfig,
+  darkTheme,
 } from "@rainbow-me/rainbowkit";
 import {
   argentWallet,
@@ -48,11 +49,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   if (!mounted || !config) {
     return null;
   }
+  const theme = darkTheme();
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider theme={theme} initialChain={baseSepolia}>
           {children}
           <Toaster position="bottom-right" />
         </RainbowKitProvider>
