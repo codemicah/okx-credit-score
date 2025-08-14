@@ -9,7 +9,7 @@ The frontend provides a comprehensive interface for interacting with the OKX Cre
 ## Features
 
 - 🔐 **Smart Wallet Integration** - RainbowKit with automatic dashboard redirect
-- 📊 **Credit Score Dashboard** - Real-time credit score tracking and visualization  
+- 📊 **Credit Score Dashboard** - Real-time credit score tracking and visualization
 - 💰 **Lending Interface** - Borrow and repay funds based on credit score
 - 🎨 **Modern UI/UX** - Responsive design with Tailwind CSS and gradient animations
 - ⚡ **TypeScript Safety** - Full type safety with auto-generated contract types
@@ -29,17 +29,20 @@ The frontend provides a comprehensive interface for interacting with the OKX Cre
 ### Installation
 
 1. **Install dependencies:**
+
 ```bash
 cd frontend
 npm install
 ```
 
 2. **Configure environment:**
+
 ```bash
 cp .env.local.example .env.local
 ```
 
 3. **Update environment variables:**
+
 ```env
 NEXT_PUBLIC_CREDIT_SCORE_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
 NEXT_PUBLIC_LENDING_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
@@ -48,6 +51,7 @@ NEXT_PUBLIC_CHAIN_ID=31337
 ```
 
 4. **Start development server:**
+
 ```bash
 npm run dev
 ```
@@ -88,13 +92,13 @@ frontend/
 
 All environment variables are prefixed with `NEXT_PUBLIC_` for browser availability:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_CREDIT_SCORE_ADDRESS` | CreditScore contract address | Required |
-| `NEXT_PUBLIC_LENDING_ADDRESS` | SimpleLending contract address | Required |
-| `NEXT_PUBLIC_API_URL` | Backend API endpoint | `http://localhost:3001` |
-| `NEXT_PUBLIC_CHAIN_ID` | Blockchain network ID | `31337` (localhost) |
-| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID | Optional |
+| Variable                               | Description                    | Default                 |
+| -------------------------------------- | ------------------------------ | ----------------------- |
+| `NEXT_PUBLIC_CREDIT_SCORE_ADDRESS`     | CreditScore contract address   | Required                |
+| `NEXT_PUBLIC_LENDING_ADDRESS`          | SimpleLending contract address | Required                |
+| `NEXT_PUBLIC_API_URL`                  | Backend API endpoint           | `http://localhost:3001` |
+| `NEXT_PUBLIC_CHAIN_ID`                 | Blockchain network ID          | `31337` (localhost)     |
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID       | Optional                |
 
 ## Development Workflow
 
@@ -107,39 +111,44 @@ npm run typechain
 ```
 
 Or use the convenience script:
+
 ```bash
 ./scripts/update-types.sh
 ```
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run typechain` | Generate contract types |
+| Command                   | Description                |
+| ------------------------- | -------------------------- |
+| `npm run dev`             | Start development server   |
+| `npm run build`           | Build for production       |
+| `npm run start`           | Start production server    |
+| `npm run lint`            | Run ESLint                 |
+| `npm run typechain`       | Generate contract types    |
 | `npm run typechain:watch` | Watch and regenerate types |
 
 ### Testing Locally
 
 1. **Start Foundry node:**
+
 ```bash
 cd ../foundry && anvil
 ```
 
 2. **Deploy contracts:**
+
 ```bash
 cd ../foundry && ./deploy-local.sh
 ```
 
 3. **Start backend API:**
+
 ```bash
 cd ../backend && node server.js
 ```
 
 4. **Start frontend:**
+
 ```bash
 npm run dev
 ```
@@ -155,21 +164,25 @@ npm run dev
 ## Key Components
 
 ### ConnectWallet
+
 - RainbowKit integration with custom styling
 - Supports both default and custom button variants
 - Automatic connection state management
 
-### CreditScore  
+### CreditScore
+
 - Displays current credit score and rating
 - OKX DEX data synchronization
 - Real-time score updates
 
 ### LendingActions
+
 - Borrow funds interface with amount validation
 - Repay loans with balance checking
 - Transaction status and confirmation
 
 ### LandingPage
+
 - Feature showcase with animated elements
 - Responsive hero section
 - Statistics and how-it-works sections
@@ -177,12 +190,14 @@ npm run dev
 ## Deployment
 
 ### Development
+
 ```bash
 npm run build
 npm run start
 ```
 
 ### Production
+
 1. Configure production environment variables
 2. Deploy to Vercel, Netlify, or similar platform
 3. Ensure contract addresses match deployed network
@@ -197,3 +212,7 @@ npm run start
 - **HTTP Client:** TanStack Query for API calls
 - **Notifications:** react-hot-toast
 - **Contract Types:** TypeChain for type generation
+
+Deployed Contract
+CreditScore deployed at: 0x53Eba1e079F885482238EE8bf01C4A9f09DE458f
+SimpleLending deployed at: 0x56186c1e64ca8043DEF78d06Aff222212ea5df71

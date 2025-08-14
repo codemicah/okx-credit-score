@@ -1,51 +1,52 @@
-'use client'
+"use client";
 
-import * as React from 'react'
+import * as React from "react";
 import {
   RainbowKitProvider,
   getDefaultWallets,
   getDefaultConfig,
-} from '@rainbow-me/rainbowkit'
+} from "@rainbow-me/rainbowkit";
 import {
   argentWallet,
   trustWallet,
   ledgerWallet,
-} from '@rainbow-me/rainbowkit/wallets'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WagmiProvider } from 'wagmi'
-import { localhost } from '@/lib/config'
-import '@rainbow-me/rainbowkit/styles.css'
-import { Toaster } from 'react-hot-toast'
+} from "@rainbow-me/rainbowkit/wallets";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiProvider } from "wagmi";
+import { localhost } from "@/lib/config";
+import "@rainbow-me/rainbowkit/styles.css";
+import { Toaster } from "react-hot-toast";
+import { baseSepolia } from "wagmi/chains";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = React.useState(false)
-  const [config, setConfig] = React.useState<any>(null)
+  const [mounted, setMounted] = React.useState(false);
+  const [config, setConfig] = React.useState<any>(null);
 
   React.useEffect(() => {
-    const { wallets } = getDefaultWallets()
-    
+    const { wallets } = getDefaultWallets();
+
     const wagmiConfig = getDefaultConfig({
-      appName: 'OKX Credit Score',
-      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'default',
+      appName: "OKX Credit Score",
+      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "default",
       wallets: [
         ...wallets,
         {
-          groupName: 'Other',
+          groupName: "Other",
           wallets: [argentWallet, trustWallet, ledgerWallet],
         },
       ],
-      chains: [localhost],
+      chains: [baseSepolia, localhost],
       ssr: true,
-    })
-    
-    setConfig(wagmiConfig)
-    setMounted(true)
-  }, [])
+    });
+
+    setConfig(wagmiConfig);
+    setMounted(true);
+  }, []);
 
   if (!mounted || !config) {
-    return null
+    return null;
   }
 
   return (
@@ -57,5 +58,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 }
