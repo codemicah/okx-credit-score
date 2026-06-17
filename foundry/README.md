@@ -27,11 +27,13 @@ Built with Solidity 0.8.20 and deployed using the Foundry framework for maximum 
 **Purpose**: Manages user credit scores based on OKX trading data
 
 **Key Functions**:
+
 - `updateUserData(address, uint256, uint256)` - Oracle updates user trading data
 - `calculateScore(uint256, uint256)` - Pure function for score calculation
 - `getScore(address)` - View user's current credit score
 
 **Scoring Algorithm**:
+
 ```
 Base Score (200 points) + Volume Score (0-500) + Trade Count Score (0-300) = Total (200-1000)
 
@@ -45,11 +47,13 @@ Maximum Score: 1,000 points
 **Purpose**: Provides uncollateralized loans based on credit scores
 
 **Key Functions**:
+
 - `borrow()` - Request loan based on credit score
 - `repay()` - Repay outstanding loan
 - `deposit()` - Add liquidity to lending pool
 
 **Lending Terms**:
+
 - **Minimum Score**: 300 points required to borrow
 - **Credit Limit**: Credit Score × $10 USD
 - **Loan Amount**: 50% of credit limit (conservative approach)
@@ -79,16 +83,19 @@ forge build
 ### Local Development
 
 1. **Start local blockchain:**
+
 ```bash
 anvil
 ```
 
 2. **Deploy contracts locally:**
+
 ```bash
 ./deploy-local.sh
 ```
 
 3. **Run tests:**
+
 ```bash
 forge test -vvv
 ```
@@ -144,6 +151,7 @@ function getScore(address user) external view returns (uint256)
 ```
 
 **Events**:
+
 - `ScoreUpdated(address indexed user, uint256 score)` - Credit score updated
 
 ### SimpleLending.sol
@@ -169,6 +177,7 @@ function deposit() external payable                 // Add liquidity
 ```
 
 **Events**:
+
 - `LoanIssued(address indexed borrower, uint256 amount)` - Loan disbursed
 - `LoanRepaid(address indexed borrower, uint256 amount)` - Loan repaid
 
@@ -209,20 +218,24 @@ The contracts are designed to work together:
 ## Security Considerations
 
 ### Access Control
+
 - **Oracle Role**: Only designated oracle can update credit scores
 - **Owner Role**: Only owner can withdraw liquidity from lending contract
 
 ### Input Validation
+
 - Address zero checks for all user inputs
 - Overflow protection with Solidity 0.8.20
 - Loan existence and repayment status validation
 
 ### Economic Security
+
 - Conservative loan-to-value ratio (50% of credit limit)
 - Minimum credit score requirement (300 points)
 - Fixed ETH price for MVP (upgradeable for production)
 
 ### Known Limitations
+
 - **Fixed ETH Price**: Uses constant $3,000/ETH (needs oracle for production)
 - **No Interest**: 0% interest for MVP demonstration
 - **Simple Scoring**: Basic algorithm (can be enhanced with ML)
@@ -239,10 +252,12 @@ The contracts are designed to work together:
 Contract addresses are stored in `DEPLOYED_ADDRESSES.md` after deployment.
 
 ### Local (Anvil)
+
 - CreditScore: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
 - SimpleLending: `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512`
 
 ### Testnet (Sepolia)
+
 - CreditScore: `TBD`
 - SimpleLending: `TBD`
 
@@ -250,13 +265,13 @@ Contract addresses are stored in `DEPLOYED_ADDRESSES.md` after deployment.
 
 ### Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `deploy-local.sh` | Deploy to local Anvil node |
+| Script                 | Description                   |
+| ---------------------- | ----------------------------- |
+| `deploy-local.sh`      | Deploy to local Anvil node    |
 | `deploy-production.sh` | Deploy to production networks |
-| `forge build` | Compile contracts |
-| `forge test` | Run test suite |
-| `forge fmt` | Format code |
+| `forge build`          | Compile contracts             |
+| `forge test`           | Run test suite                |
+| `forge fmt`            | Format code                   |
 
 ### Development Workflow
 
@@ -270,12 +285,14 @@ Contract addresses are stored in `DEPLOYED_ADDRESSES.md` after deployment.
 ## Future Enhancements
 
 ### V2 Features
+
 - **Dynamic Interest Rates** - Based on risk assessment
 - **Multiple Credit Sources** - Integrate other DEX data
 - **Collateral Options** - Hybrid collateralized/uncollateralized loans
 - **Governance Token** - Decentralized protocol governance
 
 ### Technical Improvements
+
 - **Price Oracles** - Chainlink integration for accurate pricing
 - **Advanced Scoring** - Machine learning-based credit models
 - **Flash Loan Protection** - MEV and manipulation resistance
@@ -291,6 +308,7 @@ Contract addresses are stored in `DEPLOYED_ADDRESSES.md` after deployment.
 6. **Submit pull request** with detailed description
 
 ### Code Standards
+
 - Follow Solidity style guide
 - Add NatSpec documentation for all public functions
 - Maintain 100% test coverage for new code
@@ -309,3 +327,7 @@ MIT License - see [LICENSE](../LICENSE) for details.
 - **Foundry Documentation**: https://book.getfoundry.sh/
 - **OpenZeppelin Contracts**: https://docs.openzeppelin.com/contracts/
 - **Solidity Documentation**: https://docs.soliditylang.org/
+
+Deployed Contract
+CreditScore deployed at: 0x53Eba1e079F885482238EE8bf01C4A9f09DE458f
+SimpleLending deployed at: 0x56186c1e64ca8043DEF78d06Aff222212ea5df71

@@ -4,4 +4,7 @@ out = "out"
 libs = ["lib"]
 solc_version = "0.8.20"
 
+[etherscan]
+base-sepolia = { key = "${ETHERSCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
